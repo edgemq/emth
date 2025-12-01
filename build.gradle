@@ -1,0 +1,95 @@
+plugins {
+    id "java"
+    id "idea"
+    id "forge" version "1.2-1.0.+"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+archivesBaseName = project.archives_base_name
+
+minecraft {
+    version = "${project.minecraft_version}-${project.forge_version}-${project.minecraft_version}"
+    runDir = "run"
+}
+
+java {
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor 'com.github.bsideup.jabel:jabel-javac-plugin:+'
+    compileOnly 'com.github.bsideup.jabel:jabel-javac-plugin:+'
+
+    compileOnly 'org.projectlombok:lombok:+'
+    annotationProcessor 'org.projectlombok:lombok:+'
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+java {
+    withSourcesJar()
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : project.mod_id,
+                "Specification-Vendor"    : project.mod_author,
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : version,
+                "Implementation-Vendor"   : project.mod_author,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    inputs.property "mod_id", project.mod_id
+    inputs.property "mod_version", project.mod_version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "mod_author", project.mod_author
+
+    from (sourceSets.main.resources.srcDirs) {
+        include "mcmod.info"
+        expand "mod_id": project.mod_id, "mod_version": project.mod_version, "minecraft_version": project.minecraft_version, "mod_author": project.mod_author
+    }
+
+    from (sourceSets.main.resources.srcDirs) {
+        exclude "mcmod.info"
+    }
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("build/classes/main/")
+        excludeDirs += file("run")
+    }
+}
+
+sourceSets {
+    main {
+        output.setResourcesDir("build/classes/java/main/")
+    }
+}
+
+tasks.register('deobfJar', Jar) {
+    classifier = "deobf"
+    from sourceSets.main.output
+}
+
+artifacts {
+    archives deobfJar
+}

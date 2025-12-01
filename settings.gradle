@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+
+        maven {
+            name = "forge"
+            url = uri("https://maven.minecraftforge.net/")
+        }
+
+        maven {
+            name = "sonatype"
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        }
+
+        gradlePluginPortal()
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "forge") {
+                useModule("com.anatawa12.forge:ForgeGradle:${requested.version}")
+            }
+        }
+    }
+}

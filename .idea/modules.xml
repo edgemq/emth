@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/arturikmod.api.iml" filepath="$PROJECT_DIR$/.idea/modules/arturikmod.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/arturikmod.main.iml" filepath="$PROJECT_DIR$/.idea/modules/arturikmod.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/arturikmod.test.iml" filepath="$PROJECT_DIR$/.idea/modules/arturikmod.test.iml" />
+    </modules>
+  </component>
+</project>
